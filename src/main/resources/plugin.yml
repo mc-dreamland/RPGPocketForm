@@ -1,0 +1,8 @@
+name: RPGPocketForm
+version: '${project.version}'
+main: shallow.ai.rpgpocketform.RPGPocketForm
+depend: [ PEFormAPI, Vault ]
+authors: [ ShallowAi ]
+commands:
+  rpgform:
+    description: 插件主要命令

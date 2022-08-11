@@ -1,7 +1,7 @@
 name: RPGPocketForm
 version: '${project.version}'
 main: shallow.ai.rpgpocketform.RPGPocketForm
-depend: [ PEFormAPI, Vault ]
+depend: [ PEFormAPI, Vault, SkillAPI, floodgate ]
 authors: [ ShallowAi ]
 commands:
   rpgform:

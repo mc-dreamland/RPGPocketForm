@@ -1,9 +1,7 @@
 package shallow.ai.rpgpocketform;
 
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import shallow.ai.rpgpocketform.command.SellCommand;
+import shallow.ai.rpgpocketform.command.RpgFormCommand;
 import shallow.ai.rpgpocketform.hook.VaultHook;
 
 public final class RPGPocketForm extends JavaPlugin {
@@ -23,7 +21,7 @@ public final class RPGPocketForm extends JavaPlugin {
         }
         saveDefaultConfig();
         reloadConfig();
-        this.getServer().getPluginCommand("rpgform").setExecutor(new SellCommand());
+        this.getServer().getPluginCommand("rpgform").setExecutor(new RpgFormCommand());
         // Plugin startup logic
 
     }

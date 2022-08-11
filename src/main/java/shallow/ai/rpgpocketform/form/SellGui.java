@@ -8,6 +8,18 @@ import com.ayou.peformapi.complexform.ComplexFormInit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.geysermc.cumulus.component.Component;
+import org.geysermc.cumulus.component.util.ComponentType;
+import org.geysermc.cumulus.form.CustomForm;
+import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.form.ModalForm;
+import org.geysermc.cumulus.form.SimpleForm;
+import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.util.FormImage;
+import org.geysermc.cumulus.util.glue.CustomFormGlue;
 import protocolsupport.libs.com.google.gson.JsonArray;
 import protocolsupportpocketstuff.api.modals.callback.ComplexFormCallback;
 import protocolsupportpocketstuff.api.modals.elements.complex.ModalLabel;
@@ -19,7 +31,54 @@ import su.nightexpress.quantumrpg.modules.sell.SellManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellGui extends AbstractGui {
+public class SellGui implements CustomForm {
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public @Nullable FormImage icon() {
+        return null;
+    }
+
+    @Override
+    public @NonNull List<@Nullable Component> content() {
+        return null;
+    }
+
+    @Override
+    public @NonNull String title() {
+        return null;
+    }
+
+    Player player;
+
+    public CustomForm buildForm(Player player){
+        this.player = player;
+       CustomForm.Builder customForm = CustomForm.builder().title(ConfigHandler.getConfig().getString("sell.title", ""));
+       customForm.label(ConfigHandler.getConfig().getString("sell.context", ""));
+       addToggle(customForm);
+       addResponseHandler(customForm);
+        return customForm.build();
+    }
+
+
+    public void addToggle(CustomForm.Builder form) {
+        for (ItemStack itemStack : getPlayerItem(player)){
+            form.toggle(itemStack.getItemMeta().getDisplayName());
+        }
+    }
+
+
+    public void addResponseHandler(CustomForm.Builder form){
+        List<ItemStack> sellItemStacks = new ArrayList<>();
+        form.(customFormResponse -> {
+            System.out.println(customFormResponse.next().toString());
+            }
+        );
+    }
     private final SellManager sellManager;
 
     public SellGui() {
@@ -39,7 +98,6 @@ public class SellGui extends AbstractGui {
         return itemStacks;
     }
 
-    @Override
     public AbstractFormBuilder builder(Player player) {
         return ComplexFormBuilder.builder().init(new ComplexFormInit() {
             @Override
@@ -52,7 +110,7 @@ public class SellGui extends AbstractGui {
                 ArrayList<ComplexFormElement> elementArrayList = new ArrayList<>();
                 elementArrayList.add(
                         new ComplexFormElement(()->
-                                new ModalLabel(ConfigHandler.getConfig().getString("sell.description", "")))
+                                new ModalLabel(ConfigHandler.getConfig().getString("sell.context", "")))
                 );
 
                 for (ItemStack itemStack : getPlayerItem(player)){
@@ -82,7 +140,6 @@ public class SellGui extends AbstractGui {
                                 sellItemStacks.add(getPlayerItem(player).get(i - 1));
                             }
                         }
-                        new SellConfirmGui(sellItemStacks).sendModal(player);
                     }
                 };
             }

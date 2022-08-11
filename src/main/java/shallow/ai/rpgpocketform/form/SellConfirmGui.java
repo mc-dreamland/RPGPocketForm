@@ -8,6 +8,9 @@ import com.ayou.peformapi.windowform.ModalWindow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.geysermc.cumulus.form.CustomForm;
+import org.geysermc.cumulus.form.ModalForm;
+import protocolsupportpocketstuff.api.modals.Modal;
 import protocolsupportpocketstuff.api.modals.callback.ModalWindowCallback;
 import protocolsupportpocketstuff.api.modals.elements.complex.ModalToggle;
 import shallow.ai.rpgpocketform.config.ConfigHandler;
@@ -18,7 +21,19 @@ import su.nightexpress.quantumrpg.modules.sell.SellManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellConfirmGui extends AbstractGui {
+public class SellConfirmGui {
+
+    Player player;
+
+    public ModalForm buildForm(Player player){
+        this.player = player;
+        ModalForm.Builder customForm = ModalForm.builder().title(ConfigHandler.getConfig().getString("sell.confirm.title", ""));
+        customForm.content(ConfigHandler.getConfig().getString("sell.confirm.content", ""));
+        customForm.button1(ConfigHandler.getConfig().getString("sell.confirm.true", ""));
+        customForm.button2(ConfigHandler.getConfig().getString("sell.confirm.false", ""));
+
+        return customForm.build();
+    }
     private final List<ItemStack> sellItemStacks;
 
     public SellConfirmGui(List<ItemStack> sellItemStacks) {
@@ -37,7 +52,7 @@ public class SellConfirmGui extends AbstractGui {
         return itemStacks;
     }
 
-    @Override
+
     public AbstractFormBuilder builder(Player player) {
         return WindowFormBuilder.builder().init(new ModalWindow() {
             @Override

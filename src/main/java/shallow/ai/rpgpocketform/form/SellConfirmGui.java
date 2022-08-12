@@ -1,18 +1,13 @@
 package shallow.ai.rpgpocketform.form;
 
-import com.ayou.peformapi.AbstractGui;
 import com.ayou.peformapi.builder.AbstractFormBuilder;
 import com.ayou.peformapi.builder.WindowFormBuilder;
-import com.ayou.peformapi.complexform.ComplexFormElement;
 import com.ayou.peformapi.windowform.ModalWindow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.ModalForm;
-import protocolsupportpocketstuff.api.modals.Modal;
 import protocolsupportpocketstuff.api.modals.callback.ModalWindowCallback;
-import protocolsupportpocketstuff.api.modals.elements.complex.ModalToggle;
 import shallow.ai.rpgpocketform.config.ConfigHandler;
 import shallow.ai.rpgpocketform.hook.VaultHook;
 import su.nightexpress.quantumrpg.QuantumRPG;
@@ -23,6 +18,11 @@ import java.util.List;
 
 public class SellConfirmGui {
 
+    public SellConfirmGui(Player player, List<ItemStack> sellItemStacks) {
+        this.player = player;
+        this.sellItemStacks = sellItemStacks;
+    }
+
     Player player;
 
     public ModalForm buildForm(Player player){
@@ -31,7 +31,6 @@ public class SellConfirmGui {
         customForm.content(ConfigHandler.getConfig().getString("sell.confirm.content", ""));
         customForm.button1(ConfigHandler.getConfig().getString("sell.confirm.true", ""));
         customForm.button2(ConfigHandler.getConfig().getString("sell.confirm.false", ""));
-
         return customForm.build();
     }
     private final List<ItemStack> sellItemStacks;
@@ -88,7 +87,6 @@ public class SellConfirmGui {
                             if (player.getInventory().contains(itemStack)) {
                                 sellPrice += sellManager.calcCost(itemStack);
                                 player.getInventory().remove(itemStack);
-                                // TODO: 给钱
                                 System.out.println("sellPrice = " + sellPrice);
                             }
                             else {
@@ -96,7 +94,7 @@ public class SellConfirmGui {
                                 return;
                             }
                         }
-                        // 给予
+                        // 给了
                         VaultHook.depositBalance(player, sellPrice);
 
                     }

@@ -27,7 +27,6 @@ public class RpgFormCommand implements CommandExecutor {
                     return true;
                 case "quest":
                     QuestGui q = new QuestGui("","","","");
-                    FloodgateApi.getInstance().sendForm(((Player) sender).getUniqueId(), q);
                     return true;
             }
         }

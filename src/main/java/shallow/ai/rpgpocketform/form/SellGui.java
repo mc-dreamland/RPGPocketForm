@@ -1,57 +1,20 @@
 package shallow.ai.rpgpocketform.form;
 
-import com.ayou.peformapi.AbstractGui;
-import com.ayou.peformapi.builder.AbstractFormBuilder;
-import com.ayou.peformapi.builder.ComplexFormBuilder;
-import com.ayou.peformapi.complexform.ComplexFormElement;
-import com.ayou.peformapi.complexform.ComplexFormInit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.component.Component;
-import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.form.CustomForm;
-import org.geysermc.cumulus.form.Form;
-import org.geysermc.cumulus.form.ModalForm;
-import org.geysermc.cumulus.form.SimpleForm;
-import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.response.FormResponse;
-import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.glue.CustomFormGlue;
-import protocolsupport.libs.com.google.gson.JsonArray;
-import protocolsupportpocketstuff.api.modals.callback.ComplexFormCallback;
-import protocolsupportpocketstuff.api.modals.elements.complex.ModalLabel;
-import protocolsupportpocketstuff.api.modals.elements.complex.ModalToggle;
+import org.geysermc.floodgate.api.FloodgateApi;
 import shallow.ai.rpgpocketform.config.ConfigHandler;
 import su.nightexpress.quantumrpg.QuantumRPG;
 import su.nightexpress.quantumrpg.modules.sell.SellManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class SellGui implements CustomForm {
+public class SellGui {
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public @Nullable FormImage icon() {
-        return null;
-    }
-
-    @Override
-    public @NonNull List<@Nullable Component> content() {
-        return null;
-    }
-
-    @Override
-    public @NonNull String title() {
-        return null;
-    }
 
     Player player;
 
@@ -74,10 +37,16 @@ public class SellGui implements CustomForm {
 
     public void addResponseHandler(CustomForm.Builder form){
         List<ItemStack> sellItemStacks = new ArrayList<>();
-        form.(customFormResponse -> {
-            System.out.println(customFormResponse.next().toString());
+        AtomicInteger i = new AtomicInteger();
+        form.validResultHandler(response -> {
+            if (!response.hasNext()) {
+                return;
             }
-        );
+            sellItemStacks.add(getPlayerItem(player).get(i.get()));
+            i.getAndIncrement();
+
+            FloodgateApi.getInstance().sendForm(player.getUniqueId(), new SellConfirmGui(player, sellItemStacks).buildForm(player));
+        });
     }
     private final SellManager sellManager;
 
@@ -96,54 +65,6 @@ public class SellGui implements CustomForm {
             itemStacks.add(inv.getItem(i));
         }
         return itemStacks;
-    }
-
-    public AbstractFormBuilder builder(Player player) {
-        return ComplexFormBuilder.builder().init(new ComplexFormInit() {
-            @Override
-            public String title() {
-                return ConfigHandler.getConfig().getString("sell.title", "");
-            }
-
-            @Override
-            public List<ComplexFormElement> initElements() {
-                ArrayList<ComplexFormElement> elementArrayList = new ArrayList<>();
-                elementArrayList.add(
-                        new ComplexFormElement(()->
-                                new ModalLabel(ConfigHandler.getConfig().getString("sell.context", "")))
-                );
-
-                for (ItemStack itemStack : getPlayerItem(player)){
-                    elementArrayList.add(
-                            new ComplexFormElement(()->
-                                    new ModalToggle(itemStack.getItemMeta().getDisplayName()))
-                            );
-                }
-
-                return elementArrayList;
-            }
-
-            @Override
-            public ComplexFormCallback callback() {
-                return new ComplexFormCallback() {
-                    @Override
-                    public void onComplexFormResponse(Player player, String s, boolean quit, JsonArray jsonArray) {
-                        if (quit) return;
-                        if (jsonArray.size() == 1) {
-                            player.sendMessage(ConfigHandler.getConfig().getString("general.no_item", ""));
-                            return;
-                        }
-                        List<ItemStack> sellItemStacks = new ArrayList<>();
-                        for (int i = 0; i < jsonArray.size(); i++){
-                            if (jsonArray.get(i).isJsonNull()) continue;
-                            if (jsonArray.get(i).getAsBoolean()){
-                                sellItemStacks.add(getPlayerItem(player).get(i - 1));
-                            }
-                        }
-                    }
-                };
-            }
-        });
     }
 
 }

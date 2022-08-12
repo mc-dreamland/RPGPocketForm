@@ -1,6 +1,5 @@
 package shallow.ai.rpgpocketform.form;
 
-import com.ayou.peformapi.AbstractGui;
 import com.ayou.peformapi.builder.AbstractFormBuilder;
 import com.ayou.peformapi.builder.SimpleFormBuilder;
 import com.ayou.peformapi.simpleform.ISimpleFormInit;
@@ -8,11 +7,8 @@ import com.ayou.peformapi.simpleform.SimpleFormButton;
 import com.sucy.skill.SkillAPI;
 import com.sucy.skill.manager.AttributeManager;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.form.Form;
-import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.SimpleForm;
-import org.geysermc.floodgate.api.FloodgateApi;
 import protocolsupportpocketstuff.api.modals.elements.simple.ModalButton;
 import shallow.ai.rpgpocketform.config.ConfigHandler;
 
@@ -67,9 +63,5 @@ public class AttrGui {
 
     public void giveAttribute(String attribute, Player player){
         SkillAPI.getPlayerData(player).giveAttribute(attribute,1);
-    }
-
-    public @NonNull String title() {
-        return null;
     }
 }

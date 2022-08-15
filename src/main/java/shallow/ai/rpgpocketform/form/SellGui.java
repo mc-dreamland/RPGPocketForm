@@ -42,10 +42,11 @@ public class SellGui {
             if (!response.hasNext()) {
                 return;
             }
-            sellItemStacks.add(getPlayerItem(player).get(i.get()));
             i.getAndIncrement();
-
-            FloodgateApi.getInstance().sendForm(player.getUniqueId(), new SellConfirmGui(player, sellItemStacks).buildForm(player));
+            if ((Boolean)response.next()){
+                sellItemStacks.add(getPlayerItem(player).get(i.get()));
+                FloodgateApi.getInstance().sendForm(player.getUniqueId(), new SellConfirmGui(player, sellItemStacks).buildForm(player));
+            }
         });
     }
     private final SellManager sellManager;

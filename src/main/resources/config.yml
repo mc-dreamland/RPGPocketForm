@@ -17,8 +17,7 @@ shop:
     context: 当前没有可买的东西.
 attr:
     title: 属性点
-    context: 在下列选项中点击要加点的属性.
-    context_value: 当前拥有的属性点数量 §a%
+    content: 在下列选项中点击要加点的属性. \n当前拥有的属性点数量 §a
     deny: 你没有足够的属性点.
 general:
     no_item: 你没有可以出售的物品.

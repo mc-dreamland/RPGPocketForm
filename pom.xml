@@ -87,29 +87,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>protocolsupportpocketstuff</groupId>
-            <artifactId>ProtocolSupportPocketStuff</artifactId>
-            <version>0.01</version>
-            <classifier>dev</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>su.nightexpress</groupId>
             <artifactId>QuantumRPG</artifactId>
             <version>4.0.7.100-BETA</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>protocolsupport.ProtocolSupport</groupId>
-            <artifactId>ProtocolSupport</artifactId>
-            <version>4.30-1.17.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ayou</groupId>
-            <artifactId>PEFormAPI</artifactId>
-            <version>1.0</version>
-            <classifier>SNAPSHOT</classifier>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker</artifactId>
+            <version>3.24.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

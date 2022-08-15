@@ -1,16 +1,12 @@
 package shallow.ai.rpgpocketform.form;
 
-import com.ayou.peformapi.builder.AbstractFormBuilder;
-import com.ayou.peformapi.builder.WindowFormBuilder;
-import com.ayou.peformapi.windowform.ModalWindow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.ModalForm;
-import org.geysermc.floodgate.api.FloodgateApi;
-import protocolsupportpocketstuff.api.modals.callback.ModalWindowCallback;
-import shallow.ai.rpgpocketform.config.ConfigHandler;
+import shallow.ai.rpgpocketform.RPGPocketForm;
+import shallow.ai.rpgpocketform.handler.ConfigHandler;
 import shallow.ai.rpgpocketform.hook.VaultHook;
 import su.nightexpress.quantumrpg.QuantumRPG;
 import su.nightexpress.quantumrpg.modules.sell.SellManager;
@@ -50,7 +46,6 @@ public class SellConfirmGui {
                 if (player.getInventory().contains(itemStack)) {
                     sellPrice += sellManager.calcCost(itemStack);
                     player.getInventory().remove(itemStack);
-                    System.out.println("sellPrice = " + sellPrice);
                 }
                 else {
                     player.sendMessage(ConfigHandler.getConfig().getString("general.illegal"));

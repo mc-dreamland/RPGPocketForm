@@ -1,4 +1,4 @@
-package shallow.ai.rpgpocketform.config;
+package shallow.ai.rpgpocketform.handler;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import shallow.ai.rpgpocketform.RPGPocketForm;

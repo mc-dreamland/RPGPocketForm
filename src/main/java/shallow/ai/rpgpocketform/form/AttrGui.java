@@ -5,12 +5,12 @@ import com.sucy.skill.manager.AttributeManager;
 import org.bukkit.entity.Player;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.SimpleForm;
-import shallow.ai.rpgpocketform.config.ConfigHandler;
+import shallow.ai.rpgpocketform.handler.ConfigHandler;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+
+@Deprecated
 public class AttrGui {
     private final Player p;
     private final HashMap<String, AttributeManager.Attribute> attr;

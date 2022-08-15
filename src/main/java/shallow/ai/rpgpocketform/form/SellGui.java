@@ -1,11 +1,12 @@
 package shallow.ai.rpgpocketform.form;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.floodgate.api.FloodgateApi;
-import shallow.ai.rpgpocketform.config.ConfigHandler;
+import shallow.ai.rpgpocketform.handler.ConfigHandler;
 import su.nightexpress.quantumrpg.QuantumRPG;
 import su.nightexpress.quantumrpg.modules.sell.SellManager;
 
@@ -43,6 +44,7 @@ public class SellGui {
                 return;
             }
             i.getAndIncrement();
+
             if ((Boolean)response.next()){
                 sellItemStacks.add(getPlayerItem(player).get(i.get()));
                 FloodgateApi.getInstance().sendForm(player.getUniqueId(), new SellConfirmGui(player, sellItemStacks).buildForm(player));

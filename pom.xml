@@ -70,7 +70,6 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-
     </repositories>
 
     <dependencies>
@@ -79,6 +78,13 @@
             <artifactId>spigot-api</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gitee.handy-api</groupId>
+            <artifactId>PlayerTask</artifactId>
+            <version>1.13.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/PlayerTask-1.13.9.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.sucy</groupId>
@@ -106,8 +112,8 @@
         </dependency>
         <dependency>
             <groupId>org.geysermc.floodgate</groupId>
-            <artifactId>floodgate</artifactId>
-            <version>2.0.0.3</version>
+            <artifactId>api</artifactId>
+            <version>2.2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

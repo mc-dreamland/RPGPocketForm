@@ -1,16 +1,20 @@
 package shallow.ai.rpgpocketform.form;
 
+import com.google.gson.JsonElement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.geysermc.cumulus.form.CustomForm;
+import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.impl.CustomFormResponseImpl;
 import org.geysermc.floodgate.api.FloodgateApi;
 import shallow.ai.rpgpocketform.handler.ConfigHandler;
 import su.nightexpress.quantumrpg.QuantumRPG;
 import su.nightexpress.quantumrpg.modules.sell.SellManager;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,15 +44,13 @@ public class SellGui {
         List<ItemStack> sellItemStacks = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         form.validResultHandler(response -> {
-            if (!response.hasNext()) {
-                return;
+            while (response.hasNext()) {
+                if (response.next()){
+                    sellItemStacks.add(getPlayerItem(player).get(i.get()));
+                }
+                i.getAndIncrement();
             }
-            i.getAndIncrement();
-
-            if ((Boolean)response.next()){
-                sellItemStacks.add(getPlayerItem(player).get(i.get()));
-                FloodgateApi.getInstance().sendForm(player.getUniqueId(), new SellConfirmGui(player, sellItemStacks).buildForm(player));
-            }
+            FloodgateApi.getInstance().sendForm(player.getUniqueId(), new SellConfirmGui(player, sellItemStacks).buildForm(player));
         });
     }
     private final SellManager sellManager;
@@ -65,6 +67,7 @@ public class SellGui {
             if (!inv.getItem(i).hasItemMeta()) continue;
             if (!inv.getItem(i).getItemMeta().hasLore()) continue;
             if (sellManager.calcCost(inv.getItem(i)) <= 0) continue;
+            if (inv.getItem(i).getItemMeta().getLore().contains("§c不可出售")) continue;
             itemStacks.add(inv.getItem(i));
         }
         return itemStacks;

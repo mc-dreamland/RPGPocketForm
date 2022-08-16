@@ -44,6 +44,7 @@ public class SellGui {
         List<ItemStack> sellItemStacks = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         form.validResultHandler(response -> {
+            if (response == null) return;
             while (response.hasNext()) {
                 if (response.next()){
                     sellItemStacks.add(getPlayerItem(player).get(i.get()));

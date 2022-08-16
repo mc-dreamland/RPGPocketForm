@@ -1,23 +1,25 @@
 package shallow.ai.rpgpocketform.form;
 
-import com.handy.playertask.PlayerTask;
 import com.handy.playertask.api.PlayerTaskApi;
 import com.handy.playertask.entity.TaskList;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.geysermc.cumulus.form.CustomForm;
-import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.SimpleForm;
-import org.geysermc.floodgate.api.FloodgateApi;
 import shallow.ai.rpgpocketform.handler.ConfigHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Deprecated
 public class TaskGui {
 
     Player player;
+
+    public TaskGui() {
+    }
 
     public SimpleForm buildForm(Player player){
         this.player = player;
@@ -25,17 +27,18 @@ public class TaskGui {
         simpleForm.content(ConfigHandler.getConfig().getString("task.content", ""));
         for (int id : ConfigHandler.getConfig().getIntegerList("task.id")){
             TaskList taskList = PlayerTaskApi.getInstance().findDetailByTaskId(id);
-            simpleForm.button(taskList.getTaskName() + taskList.getTaskDemand()
-                    + "\n"
-                    + taskList.getTaskRewards()
-            );
+            if (taskList != null ) {
+                simpleForm.button(ChatColor.translateAlternateColorCodes('&', taskList.getTaskName()) + (taskList.getStatus() ? " §a未完成" : " §c已完成")
+                        + "\n"
+                        + ChatColor.translateAlternateColorCodes('&', taskList.getDescription() == null ? "" : taskList.getDescription())
+                );
+            }
         }
+        addResponseHandler(simpleForm);
         return simpleForm.build();
     }
 
-    public void addResponseHandler(CustomForm.Builder form){
-        List<ItemStack> sellItemStacks = new ArrayList<>();
-        AtomicInteger i = new AtomicInteger();
+    public void addResponseHandler(SimpleForm.Builder form){
         form.validResultHandler(response -> {
 
         });

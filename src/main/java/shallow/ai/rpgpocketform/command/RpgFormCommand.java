@@ -38,6 +38,10 @@ public class RpgFormCommand implements CommandExecutor {
                             return false;
                     }
                     return false;
+                case "task":
+                    TaskGui taskGui = new TaskGui();
+                    FloodgateApi.getInstance().sendForm(((Player) sender).getUniqueId(), taskGui.buildForm(((Player) sender).getPlayer()));
+                    return false;
                 case "reload":
                     if (sender instanceof ConsoleCommandSender || sender.isOp()) {
                         RPGPocketForm.getInstance().reloadConfig();
